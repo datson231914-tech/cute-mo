@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b7fb8">
+<title>Gửi lời chúc 🫧</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫧</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/ocean.css">
+<style>
+  body { overflow-y: auto; min-height: 100dvh; }
+  main {
+    position: relative; z-index: 2; min-height: 100dvh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 28px 18px calc(28px + env(safe-area-inset-bottom));
+  }
+  .eyebrow { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--aqua); font-weight: 600; }
+  h1 {
+    font-family: var(--font-title); font-weight: 700; font-size: clamp(38px, 11vw, 56px);
+    margin: 4px 0 20px; text-align: center; line-height: 1.1;
+    text-shadow: 0 4px 20px rgba(0, 40, 80, .6), 0 0 30px rgba(127,227,255,.35);
+  }
+  .card {
+    width: min(440px, 100%); padding: 24px 20px; border-radius: 26px;
+    background: linear-gradient(160deg, rgba(255,255,255,.2), rgba(255,255,255,.07));
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 20px 50px rgba(0, 20, 50, .45), inset 0 1px 0 rgba(255,255,255,.4);
+    backdrop-filter: blur(12px) saturate(1.2); -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 0 0 6px 4px; }
+  input, textarea {
+    width: 100%; font: 16px/1.5 var(--font-body); color: #fff;
+    padding: 13px 15px; border-radius: 16px; outline: none;
+    background: rgba(2, 30, 60, .35); border: 1.5px solid rgba(255,255,255,.3);
+    transition: border-color .2s, box-shadow .2s;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(232, 251, 255, .55); }
+  input:focus, textarea:focus { border-color: var(--aqua); box-shadow: 0 0 0 4px rgba(127,227,255,.2); }
+  textarea { resize: none; min-height: 130px; }
+  .field { margin-bottom: 16px; }
+  .meta { display: flex; justify-content: flex-end; font-size: 12px; opacity: .7; margin-top: 4px; }
+  button {
+    width: 100%; font: 700 18px var(--font-body); color: #023154;
+    padding: 16px; border: 0; border-radius: 99px; cursor: pointer;
+    background: radial-gradient(circle at 30% 20%, #ffffff, #bff3ff 45%, #66d4f5);
+    box-shadow: 0 10px 26px rgba(102, 212, 245, .5);
+  }
+  button:disabled { opacity: .6; }
+  .error { color: #ffd2cc; background: rgba(160, 30, 40, .4); padding: 10px 14px; border-radius: 12px; font-size: 14px; margin-bottom: 14px; display: none; }
+  .error.show { display: block; }
+
+  .done { text-align: center; display: none; }
+  .done.show { display: block; }
+  .done h2 { font-size: 22px; margin: 18px 0 8px; }
+  .done p { margin: 0; opacity: .9; line-height: 1.55; }
+  .float-bubble {
+    width: 220px; height: 220px; margin: 0 auto; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 34px; text-align: center;
+    background:
+      radial-gradient(circle at 30% 24%, rgba(255,255,255,.6), rgba(255,255,255,.06) 22%, transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(80,170,230,.1), rgba(160,230,255,.25) 70%, rgba(255,255,255,.4) 100%);
+    border: 1.5px solid rgba(255,255,255,.6);
+    box-shadow: inset 10px 12px 28px rgba(255, 170, 235, .22), inset -12px -16px 30px rgba(110, 220, 255, .3), 0 0 30px rgba(150, 230, 255, .35);
+    animation: floaty 3s ease-in-out infinite alternate, appear .8s cubic-bezier(.3,1.6,.5,1);
+    overflow: hidden;
+  }
+  .float-bubble .w { font-weight: 600; font-size: 15px; line-height: 1.35; overflow-wrap: anywhere;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0,25,60,.9); }
+  .float-bubble .n { font-family: var(--font-title); font-size: 20px; color: #c8f7ff; margin-top: 4px; }
+  @keyframes floaty { from { transform: translateY(6px); } to { transform: translateY(-10px); } }
+  @keyframes appear { from { transform: scale(.3); opacity: 0; } }
+  .count { margin-top: 18px; font-size: 13px; opacity: .7; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">🫧 Bong bóng lời chúc</div>
+  <h1 id="title">Gửi Lời Chúc</h1>
+
+  <div class="card">
+    <form id="form" autocomplete="off">
+      <div class="error" id="error"></div>
+      <div class="field">
+        <label for="name">Tên của bạn</label>
+        <input id="name" maxlength="40" placeholder="Ví dụ: Lan Anh" enterkeyhint="next">
+      </div>
+      <div class="field">
+        <label for="text">Lời chúc</label>
+        <textarea id="text" maxlength="150" placeholder="Viết lời chúc của bạn ở đây…" required></textarea>
+        <div class="meta"><span id="chars">0/150</span></div>
+      </div>
+      <button type="submit" id="submit">Gửi lời chúc 🫧</button>
+    </form>
+
+    <div class="done" id="done">
+      <div class="float-bubble" id="myBubble"><div class="w" id="myText"></div><div class="n" id="myName"></div></div>
+      <h2 id="doneTitle">Cảm ơn bạn!</h2>
+      <p id="doneMsg">Hãy cùng nhìn lên màn hình lớn để thấy bong bóng của bạn bay lên nhé 💙</p>
+    </div>
+  </div>
+  <div class="count" id="count"></div>
+</main>
+
+<script src="/ocean.js"></script>
+<script>
+(() => {
+  Ocean.build({ lite: true });
+  const $ = (id) => document.getElementById(id);
+
+  let device = null;
+  try {
+    device = localStorage.getItem("wishDevice");
+    if (!device) {
+      device = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+      localStorage.setItem("wishDevice", device);
+    }
+  } catch { device = Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+  let maxText = 150;
+
+  function showDone(title, msg, wish) {
+    $("form").style.display = "none";
+    $("done").classList.add("show");
+    $("doneTitle").textContent = title;
+    $("doneMsg").textContent = msg;
+    if (wish) {
+      $("myText").textContent = wish.text;
+      $("myName").textContent = "— " + wish.name;
+    } else {
+      $("myBubble").style.display = "none";
+    }
+  }
+
+  function showError(msg) {
+    $("error").textContent = msg;
+    $("error").classList.add("show");
+  }
+
+  $("text").addEventListener("input", () => {
+    $("chars").textContent = Array.from($("text").value).length + "/" + maxText;
+  });
+
+  // Tải thông tin sự kiện & trạng thái
+  fetch("/api/info").then((r) => r.json()).then((info) => {
+    $("title").textContent = info.title;
+    document.title = info.title + " 🫧";
+    maxText = info.maxText;
+    $("text").maxLength = info.maxText;
+    $("name").maxLength = info.maxName;
+    $("chars").textContent = "0/" + maxText;
+  }).catch(() => {});
+
+  fetch("/api/status?device=" + encodeURIComponent(device)).then((r) => r.json()).then((s) => {
+    $("count").textContent = `${s.count}/${s.max} lời chúc đã được gửi`;
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem("myWish") || "null"); } catch {}
+    if (s.sent) showDone("Bạn đã gửi lời chúc rồi!", "Cảm ơn bạn rất nhiều 💙 Hãy nhìn lên màn hình lớn nhé.", saved);
+    else if (s.full) showDone("Đã đủ lời chúc", "Cảm ơn bạn đã ghé qua 💙");
+  }).catch(() => {});
+
+  // Gửi
+  $("form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    $("error").classList.remove("show");
+    const text = $("text").value.trim();
+    const name = $("name").value.trim();
+    if (!text) { showError("Bạn chưa viết lời chúc nè."); $("text").focus(); return; }
+
+    $("submit").disabled = true;
+    $("submit").textContent = "Đang thả bong bóng…";
+    try {
+      const res = await fetch("/api/wish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, text, device }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        try { localStorage.setItem("myWish", JSON.stringify(data.wish)); } catch {}
+        $("count").textContent = `${data.count}/${data.max} lời chúc đã được gửi`;
+        showDone("Cảm ơn bạn!", "Lời chúc của bạn đã được gửi 💙", data.wish);
+      } else if (data.sent) {
+        showDone("Bạn đã gửi lời chúc rồi!", "Cảm ơn bạn rất nhiều 💙");
+      } else if (data.full) {
+        showDone("Đã đủ lời chúc", "Cảm ơn bạn đã ghé qua 💙");
+      } else {
+        showError(data.error || "Có lỗi xảy ra, bạn thử lại nhé.");
+      }
+    } catch {
+      showError("Không kết nối được máy chủ. Kiểm tra mạng Wi‑Fi rồi thử lại nhé.");
+    } finally {
+      $("submit").disabled = false;
+      $("submit").textContent = "Gửi lời chúc 🫧";
+    }
+  });
+})();
+</script>
+</body>
+</html>

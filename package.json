@@ -1,0 +1,8 @@
+{
+  "name": "bong-bong-loi-chuc",
+  "version": "1.0.0",
+  "description": "Màn hình nhận lời chúc qua QR, thả bong bóng chủ đề biển cả",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "reset": "node server.js --reset" },
+  "engines": { "node": ">=18" }
+}
